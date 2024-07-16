@@ -48,3 +48,8 @@ RUN printf "\n# Required to make apache run on 127.0.0.1 \nServerName localhost 
 
 # Symfony routes wont work without it
 RUN a2enmod rewrite;
+
+# Install composer
+RUN wget https://getcomposer.org/download/2.7.7/composer.phar \
+    && mv composer.phar /usr/local/bin/composer \
+    && chmod 777 /usr/local/bin/composer;
