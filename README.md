@@ -10,7 +10,7 @@
 </div>
 
 <div align="center">
-This project is a part of: <b><a href="">Voltigo</a></b>
+This project is a part of: <b><a href="https://github.com/Volmarg/voltigo-frontend">Voltigo</a></b>
 </div>
 
 ## Description
@@ -23,6 +23,31 @@ about it <b><a href="https://get.brightdata.com/mwjfqnunf35j">here</a></b>. Keep
 their services explicitly: `BrightDataService.php`
 
 ## Running the project
+
+- make sure that **mailer** is running, You can use already prepared mailer project from <a href="https://github.com/Volmarg/voltigo-mailpit">here</a>
+- make sure that **database container** is running, You need to either provide Your own one or create `docker-compose` with this content
+
+```yaml
+# This should work for all backend projects
+services:
+
+  db:
+    container_name: voltigo-projects-databases  
+    image: mysql:latest
+    restart: always
+    tty: true    
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+    extra_hosts:
+      - "host.docker.internal:host-gateway"      
+    volumes:
+      - db:/var/lib/mysql   
+    ports:
+      - 3661:3306
+
+volumes:
+  db:
+```
 
 - go inside the `docker` directory,
 - call `docker-compose -f docker-compose-prod.yaml up -d`
@@ -45,3 +70,4 @@ The proxy manager is a part of <b>JobSearcher</b> project. In case of deciding t
 <i>Internal id should not matter, the target country is up to You (3-digit iso code)</i>
 
 <img src="github/bright-data-db-proxy.png">
+
