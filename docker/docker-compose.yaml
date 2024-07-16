@@ -1,0 +1,33 @@
+version: "2.4"
+services:
+  proxy_provider:
+    # Start the container every time that pc is restarted
+    restart: always
+    container_name: proxy-provider
+
+    # This chain of calls will
+    # - restart apache (without it the site won't work on HOST)
+    command: sh -c "./docker/entrypoint.sh && nano /tmp/log.log"
+
+    # this is needed to let the docker access the HOST data, for example MYSQL
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+    # will automatically go to this folder when entering the container in interactive mode (exec -it bash)
+    working_dir: /var/www/html
+
+    # without this the container starts and exits, this is a must to keep the container alive
+    tty: true
+
+    build:
+      context: .
+      dockerfile: ./dockerfile
+
+    # port on which will this project be locally available
+    ports:
+      - "8202:80"
+    volumes:
+      # map the local project root dir to the folder in docker
+      - ../:/var/www/html
+      - ./container-data/apache/sites/000-default.conf:/etc/apache2/sites-available/000-default.conf
+      - /usr/lib/nagios/plugins:/usr/lib/nagios/plugins
