@@ -10,4 +10,5 @@
 /.is-installed
 /.idea
 /.env
+/.env.backup*
 ###< symfony/framework-bundle ###
